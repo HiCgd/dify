@@ -2,7 +2,7 @@ const translation = {
   title: '検索テスト',
   desc: '与えられたクエリテキストに基づいたナレッジのヒット効果をテストします。',
   dateTimeFormat: 'MM/DD/YYYY hh:mm A',
-  records: '記録',
+  recents: '最近の結果',
   table: {
     header: {
       source: 'ソース',
@@ -18,17 +18,18 @@ const translation = {
     testing: 'テスト中',
   },
   hit: {
-    title: '取得したチャンク{{num}}個',
+    title: '検索結果パラグラフ',
     emptyTip: '検索テストの結果がここに表示されます。',
   },
   noRecentTip: '最近のクエリ結果はありません。',
   viewChart: 'ベクトルチャートを表示',
   settingTitle: '取得設定',
   viewDetail: '詳細を表示',
-  chunkDetail: 'チャンクの詳細',
-  hitChunks: '{{num}}個の子チャンクをヒット',
-  open: '開く',
+  records: '誌',
+  hitChunks: '{{num}}子チャンクをヒット',
+  open: '開ける',
   keyword: 'キーワード',
+  chunkDetail: 'チャンクの詳細',
 }
 
 export default translation
