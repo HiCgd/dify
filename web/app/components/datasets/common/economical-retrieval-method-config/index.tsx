@@ -10,13 +10,11 @@ import { RETRIEVE_METHOD } from '@/types/app'
 import type { RetrievalConfig } from '@/types/app'
 
 type Props = {
-  disabled?: boolean
   value: RetrievalConfig
   onChange: (value: RetrievalConfig) => void
 }
 
 const EconomicalRetrievalMethodConfig: FC<Props> = ({
-  disabled = false,
   value,
   onChange,
 }) => {
@@ -24,8 +22,7 @@ const EconomicalRetrievalMethodConfig: FC<Props> = ({
 
   return (
     <div className='space-y-2'>
-      <OptionCard
-        disabled={disabled} icon={<Image className='w-4 h-4' src={retrievalIcon.vector} alt='' />}
+      <OptionCard icon={<Image className='w-4 h-4' src={retrievalIcon.vector} alt='' />}
         title={t('dataset.retrieval.invertedIndex.title')}
         description={t('dataset.retrieval.invertedIndex.description')} isActive
         activeHeaderClassName='bg-dataset-option-card-purple-gradient'

@@ -29,10 +29,6 @@ export const useDocumentList = (payload: {
   })
 }
 
-export const useInvalidDocumentList = () => {
-  return useInvalid(useDocumentListKey)
-}
-
 const useAutoDisabledDocumentKey = [NAME_SPACE, 'autoDisabledDocument']
 export const useAutoDisabledDocuments = (datasetId: string) => {
   return useQuery({
@@ -98,7 +94,7 @@ export const useSyncWebsite = () => {
   })
 }
 
-const useDocumentDetailKey = [NAME_SPACE, 'documentDetail', 'withoutMetaData']
+const useDocumentDetailKey = [NAME_SPACE, 'documentDetail']
 export const useDocumentDetail = (payload: {
   datasetId: string
   documentId: string
@@ -118,7 +114,7 @@ export const useDocumentMetadata = (payload: {
 }) => {
   const { datasetId, documentId, params } = payload
   return useQuery<DocumentDetailResponse>({
-    queryKey: [...useDocumentDetailKey, 'onlyMetaData', datasetId, documentId],
+    queryKey: [...useDocumentDetailKey, 'withMetaData', datasetId, documentId],
     queryFn: () => get<DocumentDetailResponse>(`/datasets/${datasetId}/documents/${documentId}`, { params }),
   })
 }

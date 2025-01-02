@@ -80,7 +80,7 @@ ref: ForwardedRef<HTMLDivElement>,
                 checked={selectedSegmentIds.includes(segItem.id)}
                 onCheck={() => onSelected(segItem.id)}
               />
-              <div className='grow min-w-0'>
+              <div className='grow'>
                 <SegmentCard
                   key={`${segItem.id}-card`}
                   detail={segItem}
