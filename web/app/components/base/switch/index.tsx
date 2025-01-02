@@ -67,7 +67,4 @@ const Switch = React.forwardRef(
       </OriginalSwitch>
     )
   })
-
-Switch.displayName = 'Switch'
-
 export default React.memo(Switch)
