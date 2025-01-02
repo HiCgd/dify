@@ -7,7 +7,7 @@ from core.rag.models.document import Document
 from core.rag.retrieval.retrieval_methods import RetrievalMethod
 from extensions.ext_database import db
 from models.account import Account
-from models.dataset import Dataset, DatasetQuery
+from models.dataset import Dataset, DatasetQuery, DocumentSegment
 
 default_retrieval_model = {
     "search_method": RetrievalMethod.SEMANTIC_SEARCH.value,
@@ -69,7 +69,7 @@ class HitTestingService:
         db.session.add(dataset_query)
         db.session.commit()
 
-        return cls.compact_retrieve_response(query, all_documents)
+        return dict(cls.compact_retrieve_response(dataset, query, all_documents))
 
     @classmethod
     def external_retrieve(
@@ -106,14 +106,41 @@ class HitTestingService:
         return dict(cls.compact_external_retrieve_response(dataset, query, all_documents))
 
     @classmethod
-    def compact_retrieve_response(cls, query: str, documents: list[Document]):
-        records = RetrievalService.format_retrieval_documents(documents)
+    def compact_retrieve_response(cls, dataset: Dataset, query: str, documents: list[Document]):
+        records = []
+
+        for document in documents:
+            if document.metadata is None:
+                continue
+
+            index_node_id = document.metadata["doc_id"]
+
+            segment = (
+                db.session.query(DocumentSegment)
+                .filter(
+                    DocumentSegment.dataset_id == dataset.id,
+                    DocumentSegment.enabled == True,
+                    DocumentSegment.status == "completed",
+                    DocumentSegment.index_node_id == index_node_id,
+                )
+                .first()
+            )
+
+            if not segment:
+                continue
+
+            record = {
+                "segment": segment,
+                "score": document.metadata.get("score", None),
+            }
+
+            records.append(record)
 
         return {
             "query": {
                 "content": query,
             },
-            "records": [record.model_dump() for record in records],
+            "records": records,
         }
 
     @classmethod

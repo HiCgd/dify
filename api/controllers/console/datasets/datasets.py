@@ -464,7 +464,7 @@ class DatasetIndexingEstimateApi(Resource):
         except Exception as e:
             raise IndexingEstimateError(str(e))
 
-        return response.model_dump(), 200
+        return response, 200
 
 
 class DatasetRelatedAppListApi(Resource):
@@ -733,18 +733,6 @@ class DatasetPermissionUserListApi(Resource):
         }, 200
 
 
-class DatasetAutoDisableLogApi(Resource):
-    @setup_required
-    @login_required
-    @account_initialization_required
-    def get(self, dataset_id):
-        dataset_id_str = str(dataset_id)
-        dataset = DatasetService.get_dataset(dataset_id_str)
-        if dataset is None:
-            raise NotFound("Dataset not found.")
-        return DatasetService.get_dataset_auto_disable_logs(dataset_id_str), 200
-
-
 api.add_resource(DatasetListApi, "/datasets")
 api.add_resource(DatasetApi, "/datasets/<uuid:dataset_id>")
 api.add_resource(DatasetUseCheckApi, "/datasets/<uuid:dataset_id>/use-check")
@@ -759,4 +747,3 @@ api.add_resource(DatasetApiBaseUrlApi, "/datasets/api-base-info")
 api.add_resource(DatasetRetrievalSettingApi, "/datasets/retrieval-setting")
 api.add_resource(DatasetRetrievalSettingMockApi, "/datasets/retrieval-setting/<string:vector_type>")
 api.add_resource(DatasetPermissionUserListApi, "/datasets/<uuid:dataset_id>/permission-part-users")
-api.add_resource(DatasetAutoDisableLogApi, "/datasets/<uuid:dataset_id>/auto-disable-logs")

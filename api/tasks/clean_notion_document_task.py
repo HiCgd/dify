@@ -37,7 +37,7 @@ def clean_notion_document_task(document_ids: list[str], dataset_id: str):
             segments = db.session.query(DocumentSegment).filter(DocumentSegment.document_id == document_id).all()
             index_node_ids = [segment.index_node_id for segment in segments]
 
-            index_processor.clean(dataset, index_node_ids, with_keywords=True, delete_child_chunks=True)
+            index_processor.clean(dataset, index_node_ids)
 
             for segment in segments:
                 db.session.delete(segment)
