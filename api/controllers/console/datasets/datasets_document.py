@@ -413,7 +413,7 @@ class DocumentIndexingEstimateApi(DocumentResource):
                 indexing_runner = IndexingRunner()
 
                 try:
-                    estimate_response = indexing_runner.indexing_estimate(
+                    response = indexing_runner.indexing_estimate(
                         current_user.current_tenant_id,
                         [extract_setting],
                         data_process_rule_dict,
@@ -421,7 +421,6 @@ class DocumentIndexingEstimateApi(DocumentResource):
                         "English",
                         dataset_id,
                     )
-                    return estimate_response.model_dump(), 200
                 except LLMBadRequestError:
                     raise ProviderNotInitializeError(
                         "No Embedding Model available. Please configure a valid provider "
@@ -432,7 +431,7 @@ class DocumentIndexingEstimateApi(DocumentResource):
                 except Exception as e:
                     raise IndexingEstimateError(str(e))
 
-        return response, 200
+        return response.model_dump(), 200
 
 
 class DocumentBatchIndexingEstimateApi(DocumentResource):
@@ -522,7 +521,6 @@ class DocumentBatchIndexingEstimateApi(DocumentResource):
                     "English",
                     dataset_id,
                 )
-                return response.model_dump(), 200
             except LLMBadRequestError:
                 raise ProviderNotInitializeError(
                     "No Embedding Model available. Please configure a valid provider "
@@ -532,6 +530,7 @@ class DocumentBatchIndexingEstimateApi(DocumentResource):
                 raise ProviderNotInitializeError(ex.description)
             except Exception as e:
                 raise IndexingEstimateError(str(e))
+        return response.model_dump(), 200
 
 
 class DocumentBatchIndexingStatusApi(DocumentResource):
