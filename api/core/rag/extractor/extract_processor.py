@@ -140,6 +140,7 @@ class ExtractProcessor:
                         extractor = UnstructuredEpubExtractor(file_path, unstructured_api_url, unstructured_api_key)
                     else:
                         # txt
+                        assert unstructured_api_url is not None
                         extractor = (
                             UnstructuredTextExtractor(file_path, unstructured_api_url)
                             if is_automatic
